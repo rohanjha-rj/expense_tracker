@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Expense Tracker</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Expense Tracker</h2>
+    <button class="toggle-theme" onclick="toggleTheme()">🌓 Toggle Theme</button>
+    
+    <input type="text" id="search-bar" placeholder="Search transactions..." oninput="init()">
+
+    <div class="balance">
+      <h3>Your Balance</h3>
+      <h1 id="balance">₹0.00</h1>
+    </div>
+
+    <div class="inc-exp-container" id="summary"></div>
+
+    <div class="chart-container" id="chart-container">
+      <div class="chart-wrapper" id="income-chart-wrapper">
+        <canvas id="incomeChart"></canvas>
+      </div>
+      <div class="chart-wrapper" id="expense-chart-wrapper">
+        <canvas id="expenseChart"></canvas>
+      </div>
+    </div>
+
+    <div class="filter-controls">
+      <select id="month-filter" onchange="filterByMonth()">
+        <option value="all">View All</option>
+      </select>
+      <button class="btn" onclick="resetFilters()">Reset Filters</button>
+    </div>
+
+    <h3>History</h3>
+    <ul id="list" class="list"></ul>
+
+    <div class="button-group">
+      <button class="btn" onclick="downloadCSV()">Download All</button>
+      <button class="btn" onclick="downloadCSV('income')">Download Income</button>
+      <button class="btn" onclick="downloadCSV('expense')">Download Expenses</button>
+      <button class="btn btn-danger" onclick="showClearConfirmation()">Clear History</button>
+    </div>
+    
+    <div class="quick-add-buttons">
+      <button class="quick-add-btn" onclick="quickAdd('Coffee', -50)">☕ Coffee ₹50</button>
+      <button class="quick-add-btn" onclick="quickAdd('Lunch', -120)">🍔 Lunch ₹120</button>
+      <button class="quick-add-btn" onclick="quickAdd('Fuel', -500)">⛽ Fuel ₹500</button>
+      <button class="quick-add-btn" onclick="quickAdd('Salary', 15000)">💰 Salary ₹15k</button>
+    </div>
+  
+    <div class="form-wrapper">
+      <form id="income-form">
+        <h3>Add Income</h3>
+        <input type="text" id="income-text" placeholder="Income source..." required />
+        <input type="number" id="income-amount" placeholder="Amount (INR)" required />
+        <input type="date" id="income-date" required />
+        <textarea id="income-note" placeholder="Add a note (optional)"></textarea>
+        <button class="btn">Add Income</button>
+      </form>
+
+      <form id="expense-form">
+        <h3>Add Expense</h3>
+        <input type="text" id="expense-text" placeholder="Expense item..." required />
+        <input type="number" id="expense-amount" placeholder="Amount (INR)" required />
+        <input type="date" id="expense-date" required />
+        <textarea id="expense-note" placeholder="Add a note (optional)"></textarea>
+        <button class="btn">Add Expense</button>
+      </form>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+
+  <div class="confirmation-dialog" id="confirmation-dialog">
+    <div class="dialog-content">
+      <h3>Clear All History?</h3>
+      <p>This will permanently delete all your transactions. This action cannot be undone.</p>
+      <div class="dialog-buttons">
+        <button class="btn confirm-btn" onclick="clearHistory()">Yes, Clear All</button>
+        <button class="btn cancel-btn" onclick="hideClearConfirmation()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
